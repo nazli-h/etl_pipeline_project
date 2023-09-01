@@ -7,4 +7,3 @@ Bulding an ETL pipline that does the following steps
 - Loads the data to the bootcamp' s s3 bucket
 
 
-
