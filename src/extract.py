@@ -3,12 +3,6 @@
 import psycopg2
 import pandas as pd
 
-import boto3
-from io import StringIO, BytesIO
-
-from pandas import DataFrame
-
-
 def connect_to_redshift(dbname, host, port, user, password):
     """Method that connects to redshift. This gives a warning so will look for another solution"""
 
@@ -37,7 +31,8 @@ def extract_transactional_data(dbname, host, port, user, password):
                    ot.price,
                    ot.quantity,
                    cast(ot.invoice_date as datetime) as invoice_date,
-                   ot.country
+                   ot.country,
+                   ot.price * ot.quantity as total_order_value
             from bootcamp.online_transactions ot
             left join ( select *
                         from bootcamp.stock_description
