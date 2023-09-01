@@ -6,4 +6,5 @@ Building an ETL pipline that does the following steps
 - Identifies and removes any duplicates
 - Loads the data to the bootcamp' s s3 bucket
 
+### Loading data from redshift
 
