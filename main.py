@@ -7,6 +7,7 @@ from src.load_data_to_s3 import df_to_s3
 from dotenv import load_dotenv
 load_dotenv()
 
+# import variables from .env file
 dbname = os.getenv('dbname')
 host = os.getenv('host')
 port = os.getenv('port')
@@ -15,15 +16,19 @@ password = os.getenv('password')
 aws_access_key_id = os.getenv('aws_access_key_id')
 aws_secret_access_key_id = os.getenv('aws_secret_access_key_id')
 
+# make a connection to redshift and extract transactional data with transformation tasks
 print("Extracting the data form redshift")
 online_trans_cleaned = extract_transactional_data(dbname, host, port, user, password)
 
+# next step, deduplicate the data
 print("Identifying and removing duplicates")
 online_trans_cleaned = drop_duplicates(online_trans_cleaned)
 
+# next step, load the deduped data to s3
 print("Loading data to the s3 bucket...")
 s3_bucket = "july-bootcamp"
 key = "etl_pipeline/docker/ne_online_transactions_v2.pkl"
 
 df_to_s3(online_trans_cleaned, key, s3_bucket, aws_access_key_id, aws_secret_access_key_id)
+
 
